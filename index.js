@@ -39,7 +39,7 @@ app.post('/addTable/:device_id', (req, res) => {
     console.log("newObj:", tables);
    
 
-    if(Object.keys(tables).length == 5){
+    if(Object.keys(tables).length >= 5){
         // we are assuming that we are waiting for the routing for 5 different esp modules
         console.log()
         res.send({

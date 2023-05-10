@@ -2,6 +2,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import networkx as nx
 import json
+import math
+
+from random import randrange
 # given tables
 
 
@@ -120,4 +123,49 @@ array = ''
 
 #     start = tables[0]
 #     lookUpPos[0]= [star]
+
+
+def compute(data):
+    # create a new dict where each AP has a defined x,y coordinate
+
+    pos = {}
+    for key in data:
+        if len(pos) == 0:
+            pos[key] = (0,0)
+        else:
+            collected = []
+            for stackey in pos:
+                if data[key][stackey] > 0:
+                    collected.append([stackey, data[key][stackey] ])
+                if len(collected) == 2:
+                    A = collected[0][0]
+                    me_A = collected[0][1]
+                    B = collected[1][0]
+                    me_B = collected[1][1]
+                    A_B = data[A][B]
+                    # solve for me
+                    
+                    if(me_A + me_B > A_B and me_A + A_B > me_B and me_B + A_B > me_A): # follows the law of triangle sides
+                        a = me_A
+                        b = me_B
+                        c = A_B
+                        angle_c = math.acos((a^2 + b ^ 2 - c ^ 2 )/ (2 *  a * B))
+
+
+            if len(collected) == 1:
+                # choose any arbitrary direction and plot the distance from point stack [0]
+                stackey = collected[0][0]
+                friendPos = pos[stackey]
+                distance =  collected[0][1]
+                myPos = friendPos
+                select = randrange(3)
+                if select == 0 : myPos[0] += data[key][stackey]
+                elif select == 1 : myPos[0] -= data[key][stackey]
+                elif select == 2 : myPos[1] += data[key][stackey]
+                elif select == 3 : myPos[1] -= data[key][stackey]
+                pos[key] = myPos
+            
+
+
+
 

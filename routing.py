@@ -150,6 +150,13 @@ def compute(data):
                         b = me_B
                         c = A_B
                         angle_c = math.acos((a^2 + b ^ 2 - c ^ 2 )/ (2 *  a * B))
+                        A_pos = pos[A]
+                        B_pos = pos[B]
+                        X = A_pos[0] + me_A * math.sin(angle_c)
+                        Y = A_pos[1] + me_A * math.cos(angle_c)
+                        pos[key] = (X,Y)
+                    else:
+                        print("Error. Valid Triange not discovered")
 
 
             if len(collected) == 1:
@@ -164,6 +171,8 @@ def compute(data):
                 elif select == 2 : myPos[1] += data[key][stackey]
                 elif select == 3 : myPos[1] -= data[key][stackey]
                 pos[key] = myPos
+
+    print(pos) 
             
 
 

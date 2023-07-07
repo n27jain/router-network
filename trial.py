@@ -6,6 +6,7 @@ import xlsxwriter
 
 workbook = xlsxwriter.Workbook('coordinates.xlsx')
 worksheet = workbook.add_worksheet()
+floating_point_bordered = workbook.add_format({'num_format': '#,##0.0000000000', 'border': 1})
 n = 7
 dist_matrix = [[0, 2, 4.242640687, 3, 4.24, 1.414213562 , 1.414213562],
                 [2,0, 3.16227766, 3.605551275, None, 1.414213562, 3.16227766],
@@ -83,8 +84,8 @@ for i in range(len(solution)):
     y = dist_matrix[0][i] * math.sin(solution[i])
     xpoints.append(x)
     ypoints.append(y)
-    worksheet.write(i, 0, x)
-    worksheet.write(i, 1, y)
+    worksheet.write(i, 0, x, floating_point_bordered)
+    worksheet.write(i, 1, y, floating_point_bordered)
 
     print("Coordinates: ", (x,y) )
 print("Best Solution: ", solution)

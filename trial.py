@@ -2,13 +2,17 @@ import pygad
 import numpy
 import math 
 
+import xlsxwriter
+
+workbook = xlsxwriter.Workbook('coordinates.xlsx')
+worksheet = workbook.add_worksheet()
 n = 7
 dist_matrix = [[0, 2, 4.242640687, 3, 4.24, 1.414213562 , 1.414213562],
-                [2,0, 3.16227766, 3.605551275, None, 1.414213562, 3.16227766]
-                [4.242640687, 3.16227766, 0, 3, None, None, None]
-                [3, 3.605551275, 3, 0, None, 4.123105626, 2.236067977]
-                [4.24, None, None, None, 0, None, 3.390811112]
-                [1.414213562, 1.414213562, None, 4.123105626, None, 0, 2.828427125]
+                [2,0, 3.16227766, 3.605551275, None, 1.414213562, 3.16227766],
+                [4.242640687, 3.16227766, 0, 3, None, None, None],
+                [3, 3.605551275, 3, 0, None, 4.123105626, 2.236067977],
+                [4.24, None, None, None, 0, None, 3.390811112],
+                [1.414213562, 1.414213562, None, 4.123105626, None, 0, 2.828427125],
                 [1.414213562, 3.16227766, None, 2.236067977, 3.390811112, 2.828427125,	0]
 ]
 
@@ -19,7 +23,7 @@ def fitness_func(ga_instance, solution, solution_idx):
     for i in range(len(solution)):
         x = dist_matrix[0][i] * math.cos(solution[i])
         y = dist_matrix[0][i] * math.sin(solution[i])
-        xy_pair.append((x.y))
+        xy_pair.append((x,y))
     output = 0
     for k in range(len(xy_pair)):
         cur = xy_pair[k]
@@ -35,7 +39,7 @@ def fitness_func(ga_instance, solution, solution_idx):
 
 fitness_function = fitness_func
 
-num_generations = 50
+num_generations = 1000
 num_parents_mating = 4
 
 sol_per_pop = 8
@@ -70,4 +74,27 @@ ga_instance = pygad.GA(num_generations=num_generations,
 ga_instance.run()
 solution, solution_fitness, solution_idx = ga_instance.best_solution()
 
+
+xpoints = []
+ypoints = []
+
+for i in range(len(solution)):
+    x = dist_matrix[0][i] * math.cos(solution[i])
+    y = dist_matrix[0][i] * math.sin(solution[i])
+    xpoints.append(x)
+    ypoints.append(y)
+    worksheet.write(i, 0, x)
+    worksheet.write(i, 1, y)
+
+    print("Coordinates: ", (x,y) )
 print("Best Solution: ", solution)
+print("solution_fitness: ", solution_fitness)
+
+workbook.close()
+
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+plt.plot(xpoints, ypoints, 'o')
+plt.show()

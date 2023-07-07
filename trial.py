@@ -1,12 +1,11 @@
 import pygad
 import numpy
 import math 
+
 n = 7
 dist_matrix = []
 
 
-
-desired_output = 44
 
 def fitness_func(ga_instance, solution, solution_idx):
     xy_pair = []
@@ -19,9 +18,10 @@ def fitness_func(ga_instance, solution, solution_idx):
     for k in range(len(xy_pair)):
         cur = xy_pair[k]
         for j in range(k+1, len(xy_pair)):
-            comp = xy_pair[j]
-            distance = math.sqrt((cur[0] - comp[0])**2 + (cur[1] - comp[1])**2)
-            total_score += abs(dist_matrix[k][j] - distance)
+            if dist_matrix[k][j]:
+                comp = xy_pair[j]
+                distance = math.sqrt((cur[0] - comp[0])**2 + (cur[1] - comp[1])**2)
+                total_score += abs(dist_matrix[k][j] - distance)
 
     fitness = 1.0 / (total_score + 0.00001)
     return fitness

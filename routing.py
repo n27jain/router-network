@@ -182,9 +182,8 @@ def compute(data):
     # Enviroment variables (different fixtures)  N value varris
     # N is just a parameter 
 
-
 # Cover Json into List object that is then converted into a routing matrix
-# Pass in routing matrix to GA and find coordinate s 
+# Pass in routing matrix to GA and find coordinates 
 # TODO: Server creates a map from data points
 
 
